@@ -1,0 +1,18 @@
+version: '3.9'
+
+networks:
+  doc-linter.network:
+    driver: bridge
+
+services:
+  webserver:
+    build: ./docker
+    container_name: doc-linter.webserver
+    tty: true
+    volumes:
+      - ./:/app
+    networks:
+      - doc-linter.network
+    ports:
+      - "80:80"
+      - "443:443"
