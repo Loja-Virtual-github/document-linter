@@ -34,6 +34,6 @@ final class Linter
             throw new LinterException("Class $linterName does not exists.");
         }
 
-        return new $className($arguments[0], $arguments[1]);
+        return new $className($arguments[0]);
     }
 }

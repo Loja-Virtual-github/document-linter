@@ -2,6 +2,8 @@
 
 namespace PabloSanches\DocumentLinter;
 
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Psr7\Response;
 use http\Exception\InvalidArgumentException;
 
 /**
@@ -9,6 +11,9 @@ use http\Exception\InvalidArgumentException;
  */
 class HTML extends AbstractLinter implements LinterInteface
 {
+    /**
+     * @var string
+     */
     protected $endpoint = 'https://html5.validator.nu/';
 
     /**
@@ -19,7 +24,7 @@ class HTML extends AbstractLinter implements LinterInteface
     /**
      * @var bool
      */
-    protected $rawDocument;
+    protected $rawDocument = false;
 
     /**
      * Constructor
@@ -28,16 +33,25 @@ class HTML extends AbstractLinter implements LinterInteface
      * @param bool      $rawDocument
      * @throws \InvalidArgumentException
      */
-    public function __construct($content, $rawDocument = false)
+    public function __construct($content)
     {
         if (empty($content)) {
             throw new \InvalidArgumentException("Content cannot be empty.");
         }
 
         $this->content = $content;
-        $this->rawDocument = $rawDocument;
 
         parent::__construct();
+    }
+
+    /**
+     * Set this document as an raw document
+     *
+     * @return void
+     */
+    public function isRaw()
+    {
+        $this->rawDocument = true;
     }
 
     /**
@@ -84,5 +98,63 @@ class HTML extends AbstractLinter implements LinterInteface
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Field mapping from validator
+     *
+     * @return array
+     */
+    public function getFieldMapping()
+    {
+        return [
+            [
+                'name' => 'out',
+                'contents' => 'json'
+            ],
+            [
+                'name' => 'content',
+                'contents' => $this->getContent()
+            ]
+        ];
+    }
+
+    /**
+     * Returns request params
+     *
+     * @return array
+     */
+    protected function getParams()
+    {
+        return [
+            'multipart' =>  $this->getFieldMapping()
+        ];
+    }
+
+    /**
+     * Parse Response
+     *
+     * @param Response $response
+     * @throws BadResponseException
+     * @return void
+     */
+    protected function parseResponse(Response $response)
+    {
+        $this->statusCode = $response->getStatusCode();
+        $this->rawBody = $response->getBody();
+
+        $this->body = json_decode($response->getBody()->getContents());
+
+        if (json_last_error()) {
+            throw new BadResponseException(json_last_error_msg());
+        }
+
+        $this->errors = $this->body->messages;
+
+        if (empty($this->errors)) {
+            $this->isValid = true;
+        } else {
+            $this->isValid = false;
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace PabloSanches\DocumentLinter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
+use http\Exception\RuntimeException;
 
 /**
  * Abstract linter
@@ -49,9 +50,14 @@ abstract class AbstractLinter
     public function __construct()
     {
         $this->httpClient = new Client([
-            'timeout' => 10,
+            'timeout' => 5,
             'verify' => false
         ]);
+    }
+
+    protected function getFieldName()
+    {
+        return $this->fieldName;
     }
 
     /**
@@ -62,57 +68,20 @@ abstract class AbstractLinter
      */
     protected function doCheck()
     {
-        $response = $this->httpClient->request('POST', $this->endpoint, [
-            'multipart' =>  array(
-                [
-                    'name' => 'out',
-                    'contents' => 'json'
-                ],
-                [
-                    'name' => 'content',
-                    'contents' => $this->getContent()
-                ]
-            ),
-        ]);
+        try {
+            $response = $this->httpClient->request(
+                'POST',
+                $this->endpoint,
+                $this->getParams()
+            );
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        }
 
-        $this->parseResponse($response);
-
-        if ($this->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new BadResponseException("Service {$this->endpoint} out");
         }
-    }
 
-    /**
-     * @return int
-     */
-    protected function getStatusCode()
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Parse Response
-     *
-     * @param Response $response
-     * @throws BadResponseException
-     * @return void
-     */
-    private function parseResponse(Response $response)
-    {
-        $this->statusCode = $response->getStatusCode();
-        $this->rawBody = $response->getBody();
-        $this->body = json_decode($response->getBody()->getContents());
-
-        if (json_last_error()) {
-            throw new BadResponseException(json_last_error_msg());
-        }
-
-        $this->errors = $this->body->messages;
-
-        if (empty($this->errors)) {
-            $this->isValid = true;
-        } else {
-            $this->isValid = false;
-        }
+        $this->parseResponse($response);
     }
 }

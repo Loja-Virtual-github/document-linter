@@ -31,4 +31,16 @@ class CSSTest extends BaseTesting
     {
         $html = Linter::CSS();
     }
+
+//    public function testValidate()
+//    {
+//        $linter = Linter::CSS('.css{background:black;}');
+//        $this->assertTrue($linter->isValid());
+//    }
+
+    public function testInvalid()
+    {
+//        $linter = Linter::CSS('.css{background:');
+//        $this->assertTrue($linter->isValid());
+    }
 }

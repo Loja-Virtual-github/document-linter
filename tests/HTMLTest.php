@@ -57,7 +57,8 @@ class HTMLTest extends BaseTesting
             </body>
             </html>
         ";
-        $html = Linter::HTML($doc, true);
+        $html = Linter::HTML($doc);
+        $html->isRaw();
         $this->assertTrue($html->isValid());
     }
 
@@ -75,7 +76,8 @@ class HTMLTest extends BaseTesting
             </body>
             </html>
         ";
-        $html = Linter::HTML($doc, true);
+        $html = Linter::HTML($doc);
+        $html->isRaw();
         $this->assertFalse($html->isValid());
         $this->assertNotEmpty($html->getErrors());
     }
