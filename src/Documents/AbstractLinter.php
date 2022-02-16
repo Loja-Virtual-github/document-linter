@@ -3,6 +3,7 @@
 namespace LojaVirtual\DocumentLinter\Documents;
 
 use LojaVirtual\DocumentLinter\File;
+use LojaVirtual\DocumentLinter\LinterException;
 use LojaVirtual\DocumentLinter\Response;
 
 /**
@@ -44,7 +45,12 @@ abstract class AbstractLinter
      */
     private function getJavaBin()
     {
-        return trim(shell_exec('which java'));
+        $javaBin = trim(shell_exec('which java'));
+        if (empty($javaBin)) {
+            throw new LinterException("Cannot find java");
+        }
+
+        return $javaBin;
     }
 
     private function getJavaFile()
