@@ -1,38 +1,73 @@
-# pds/skeleton
+# lojavirtual/document-linter
 
-This publication describes a standard filesystem skeleton suitable for all PHP
-packages.
+Biblioteca responsável por validar a sintaxe dos documentos HTML e CSS
 
-## Summary
+## Instalação
+```sh
+composer require lojavirtual/document-linter
+```
 
-A package MUST use these names for these root-level directories:
+## Docker
+Para rodar o projeto utilizando o docker:
+```sh
+docker-compose up -d
+```
 
-| If a package has a root-level directory for ... | ... then it MUST be named: |
-| ----------------------------------------------- | -------------------------- |
-| documentation files                             | `docs/`                    |
-| PHP source code                                 | `src/`                     |
-| test code                                       | `tests/`                   |
+## Dependências
+O projeto utiliza uma abstração em java fornecida pela W3C para fazer a validação, sendo assim necessário a instalação da JRE do java na máquina onde o projeto rodará.
 
-### docs/
+### Como utilizar
 
-If the package provides a root-level directory for documentation files, it MUST
-be named `docs/`.
+#### HTML
+```php
+<?php
 
-This publication does not otherwise define the structure and contents of the
-directory.
+use LojaVirtual\Linter;
 
-### src/
+$htmlContent = "<div>teste</div>";
+$linter = Linter::HTML($htmlContent);
+if (!$linter->isValid()) { // Retorna um booleano informando se o documento é valido
+    var_dump($linter->getError()); // Retorna um array com todos erros encontrados
+}
 
-If the package provides a root-level directory for PHP source code files, it
-MUST be named `src/`.
+$rawHtmlDocument = "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>HTML Linter</title>
+    </head>
+    <body>
+        <p>Test</p>
+    </body>
+    </html>
+";
+$linter = Linter::HTML($rawHtmlDocument, true);
+if (!$linter->isValid()) { // Retorna um booleano informando se o documento é valido
+    var_dump($linter->getError()); // Retorna um array com todos erros encontrados
+}
+```
 
-This publication does not otherwise define the structure and contents of the
-directory.
+#### CSS
+```php
+<?php
 
-### tests/
+use LojaVirtual\Linter;
 
-If the package provides a root-level directory for test files, it MUST be named
-`tests/`.
+$cssContent = ".teste{ color: black; }";
+$linter = Linter::CSS($cssContent);
+if (!$linter->isValid()) { // Retorna um booleano informando se o documento é valido
+    var_dump($linter->getError()); // Retorna um array com todos erros encontrados
+}
+```
 
-This publication does not otherwise define the structure and contents of the
-directory.
+### Padrões
+Projeto segue os padrões de codificação da PSR-12.
+Você antes de colaborar, verifique o comando abaixo para garantir que sua colaboração segue o mesmo padrão de projeto. 
+
+```shell
+composer cs
+```
+
+### Referências
+[https://validator.github.io/validator/](https://validator.github.io/validator/)
+

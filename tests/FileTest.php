@@ -1,8 +1,8 @@
 <?php
 
-namespace PabloSanches\DocumentLinter\Tests;
+namespace LojaVirtual\DocumentLinter\Tests;
 
-use PabloSanches\DocumentLinter\File;
+use LojaVirtual\DocumentLinter\File;
 
 class FileTest extends BaseTesting
 {
@@ -16,7 +16,7 @@ class FileTest extends BaseTesting
 
     public function testInstanceOf()
     {
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\File', $this->file);
+        $this->assertInstanceOf('LojaVirtual\DocumentLinter\File', $this->file);
     }
 
     public function testGetFilepath()

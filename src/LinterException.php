@@ -1,6 +1,6 @@
 <?php
 
-namespace PabloSanches\DocumentLinter;
+namespace LojaVirtual\DocumentLinter;
 
 /**
  * LinterException

@@ -1,9 +1,9 @@
 <?php
 
-namespace PabloSanches\DocumentLinter\Documents;
+namespace LojaVirtual\DocumentLinter\Documents;
 
-use PabloSanches\DocumentLinter\File;
-use PabloSanches\DocumentLinter\Response;
+use LojaVirtual\DocumentLinter\File;
+use LojaVirtual\DocumentLinter\Response;
 
 /**
  * Abstract linter
@@ -13,7 +13,7 @@ abstract class AbstractLinter
     const JAVA_FILE = 'vnu.jar';
 
     /**
-     * @var \PabloSanches\DocumentLinter\Response
+     * @var \LojaVirtual\DocumentLinter\Response
      */
     protected $response;
 
@@ -69,6 +69,7 @@ abstract class AbstractLinter
             $file->getFlag($linterName),
             $file->getFilepath()
         );
+
         $output = shell_exec($command);
 
         // Delete tmp file

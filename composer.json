@@ -1,5 +1,5 @@
 {
-    "name": "pablosanches/document-linter",
+    "name": "lojavirtual/document-linter",
     "description": "Html Checker – Helps you catch problems in your HTML/CSS/SVG",
     "type": "library",
     "license": "MIT",
@@ -11,12 +11,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "PabloSanches\\DocumentLinter\\": "src/"
+            "LojaVirtual\\DocumentLinter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PabloSanches\\DocumentLinter\\Tests\\": "tests/"
+            "LojaVirtual\\DocumentLinter\\Tests\\": "tests/"
         }
     },
     "require": {

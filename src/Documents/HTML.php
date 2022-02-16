@@ -1,6 +1,6 @@
 <?php
 
-namespace PabloSanches\DocumentLinter\Documents;
+namespace LojaVirtual\DocumentLinter\Documents;
 
 /**
  * HTML Linter

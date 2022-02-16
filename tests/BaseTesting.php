@@ -1,6 +1,6 @@
 <?php
 
-namespace PabloSanches\DocumentLinter\Tests;
+namespace LojaVirtual\DocumentLinter\Tests;
 
 use PHPUnit\Framework\TestCase;
 

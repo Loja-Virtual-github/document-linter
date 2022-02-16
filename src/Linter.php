@@ -1,8 +1,8 @@
 <?php
 
-namespace PabloSanches\DocumentLinter;
+namespace LojaVirtual\DocumentLinter;
 
-use PabloSanches\DocumentLinter\Documents\LinterInteface;
+use LojaVirtual\DocumentLinter\Documents\LinterInteface;
 
 /**
  * Linter

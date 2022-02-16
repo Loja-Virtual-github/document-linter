@@ -1,8 +1,8 @@
 <?php
 
-namespace PabloSanches\DocumentLinter\Tests;
+namespace LojaVirtual\DocumentLinter\Tests;
 
-use PabloSanches\DocumentLinter\Linter;
+use LojaVirtual\DocumentLinter\Linter;
 
 class LinterTest extends BaseTesting
 {
@@ -19,7 +19,7 @@ class LinterTest extends BaseTesting
             ['ClassName']
         );
 
-        $this->assertEquals('PabloSanches\DocumentLinter\Documents\ClassName', $className);
+        $this->assertEquals('LojaVirtual\DocumentLinter\Documents\ClassName', $className);
     }
 
     /**
@@ -32,11 +32,11 @@ class LinterTest extends BaseTesting
 
     public function testIntializeHTML()
     {
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\HTML', Linter::HTML('<div></div>'));
+        $this->assertInstanceOf('LojaVirtual\DocumentLinter\Documents\HTML', Linter::HTML('<div></div>'));
     }
 
     public function testIntializeCSS()
     {
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\CSS', Linter::CSS('.test{}'));
+        $this->assertInstanceOf('LojaVirtual\DocumentLinter\Documents\CSS', Linter::CSS('.test{}'));
     }
 }
