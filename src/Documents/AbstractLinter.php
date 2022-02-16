@@ -47,7 +47,7 @@ abstract class AbstractLinter
     {
         $javaBin = trim(shell_exec('which java'));
         if (empty($javaBin)) {
-            throw new LinterException("Cannot find java");
+            throw new LinterException("java cannot be found");
         }
 
         return $javaBin;
@@ -55,7 +55,10 @@ abstract class AbstractLinter
 
     private function getJavaFile()
     {
-        return './bin/' . self::JAVA_FILE;
+        $javaFile = realpath(__DIR__ . '/../../bin/') . '/' . self::JAVA_FILE;
+        if (!file_exists($javaFile)) {
+            throw new LinterException("Java file cannot be found.");
+        }
     }
 
     protected static function extractLinterName($class)
