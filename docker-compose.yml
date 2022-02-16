@@ -6,7 +6,7 @@ networks:
 
 services:
   webserver:
-    build: ./docker
+    build: ./docker/webserver
     container_name: doc-linter.webserver
     tty: true
     volumes:

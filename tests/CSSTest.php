@@ -3,7 +3,6 @@
 namespace PabloSanches\DocumentLinter\Tests;
 
 use PabloSanches\DocumentLinter\Linter;
-use PabloSanches\DocumentLinter\LinterInteface;
 
 class CSSTest extends BaseTesting
 {
@@ -15,13 +14,13 @@ class CSSTest extends BaseTesting
     public function testInitialize()
     {
         $css = '.test{}';
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\CSS', Linter::CSS($css));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\CSS', Linter::CSS($css));
     }
 
     public function testInstanceOfInterface()
     {
         $css = '.test{}';
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\LinterInteface', Linter::CSS($css));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\LinterInteface', Linter::CSS($css));
     }
 
     /**
@@ -32,15 +31,16 @@ class CSSTest extends BaseTesting
         $html = Linter::CSS();
     }
 
-//    public function testValidate()
-//    {
-//        $linter = Linter::CSS('.css{background:black;}');
-//        $this->assertTrue($linter->isValid());
-//    }
+    public function testValidate()
+    {
+        $linter = Linter::CSS('.css{background:black;}');
+        $this->assertTrue($linter->isValid());
+    }
 
     public function testInvalid()
     {
-//        $linter = Linter::CSS('.css{background:');
-//        $this->assertTrue($linter->isValid());
+        $linter = Linter::CSS('.css{background:');
+        $this->assertFalse($linter->isValid());
+        $this->assertNotEmpty($linter->getErrors());
     }
 }

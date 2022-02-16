@@ -14,13 +14,13 @@ class HTMLTest extends BaseTesting
     public function testInitialize()
     {
         $html = '<div>test</div>';
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\HTML', Linter::HTML($html));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\HTML', Linter::HTML($html));
     }
 
     public function testInstanceOfInterface()
     {
         $html = '<div>test</div>';
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\LinterInteface', Linter::HTML($html));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\LinterInteface', Linter::HTML($html));
     }
 
     /**
@@ -57,8 +57,7 @@ class HTMLTest extends BaseTesting
             </body>
             </html>
         ";
-        $html = Linter::HTML($doc);
-        $html->isRaw();
+        $html = Linter::HTML($doc, true);
         $this->assertTrue($html->isValid());
     }
 
@@ -76,8 +75,7 @@ class HTMLTest extends BaseTesting
             </body>
             </html>
         ";
-        $html = Linter::HTML($doc);
-        $html->isRaw();
+        $html = Linter::HTML($doc, true);
         $this->assertFalse($html->isValid());
         $this->assertNotEmpty($html->getErrors());
     }

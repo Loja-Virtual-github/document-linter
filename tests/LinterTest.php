@@ -19,7 +19,7 @@ class LinterTest extends BaseTesting
             ['ClassName']
         );
 
-        $this->assertEquals('PabloSanches\DocumentLinter\ClassName', $className);
+        $this->assertEquals('PabloSanches\DocumentLinter\Documents\ClassName', $className);
     }
 
     /**
@@ -32,11 +32,11 @@ class LinterTest extends BaseTesting
 
     public function testIntializeHTML()
     {
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\HTML', Linter::HTML('<div></div>'));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\HTML', Linter::HTML('<div></div>'));
     }
 
     public function testIntializeCSS()
     {
-        $this->assertInstanceOf('PabloSanches\DocumentLinter\CSS', Linter::CSS('.test{}'));
+        $this->assertInstanceOf('PabloSanches\DocumentLinter\Documents\CSS', Linter::CSS('.test{}'));
     }
 }
