@@ -55,16 +55,6 @@ class File
     }
 
     /**
-     * Get command flag
-     *
-     * @return string
-     */
-    public function getFlag($flag)
-    {
-        return "--{$flag}";
-    }
-
-    /**
      * @return void
      */
     public function delete()

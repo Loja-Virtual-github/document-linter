@@ -59,6 +59,8 @@ abstract class AbstractLinter
         if (!file_exists($javaFile)) {
             throw new LinterException("Java file cannot be found.");
         }
+
+        return $javaFile;
     }
 
     protected static function extractLinterName($class)
@@ -67,15 +69,31 @@ abstract class AbstractLinter
         return mb_strtolower(end($parts));
     }
 
+    /**
+     * Get command flag
+     *
+     * @return string
+     */
+    public function getFlag($linterName)
+    {
+        switch ($linterName) {
+            case 'html':
+                return '--html --skip-non-html';
+            case 'css':
+                return '--css --skip-non-css --also-check-css';
+        }
+    }
+
     protected function execute($linterName)
     {
-        $file = new File($this->getContent(), mb_strtoupper($linterName));
+        $linterName = mb_strtolower($linterName);
+        $file = new File($this->getContent(), $linterName);
 
         $command = sprintf(
             "%s -jar %s %s --stdout --exit-zero-always --errors-only --no-stream --format json %s",
             $this->getJavaBin(),
             $this->getJavaFile(),
-            $file->getFlag($linterName),
+            $this->getFlag($linterName),
             $file->getFilepath()
         );
 

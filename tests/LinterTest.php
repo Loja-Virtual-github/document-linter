@@ -23,7 +23,7 @@ class LinterTest extends BaseTesting
     }
 
     /**
-     * @expectedException \PabloSanches\DocumentLinter\LinterException
+     * @expectedException \LojaVirtual\DocumentLinter\LinterException
      */
     public function testNonExistClass()
     {
