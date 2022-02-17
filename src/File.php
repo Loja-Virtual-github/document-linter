@@ -59,7 +59,7 @@ class File
      */
     public function delete()
     {
-        unlink($this->getFilepath());
+        @unlink($this->getFilepath());
     }
 
     /**
@@ -67,15 +67,6 @@ class File
      */
     private function buildFilepath()
     {
-        switch (PHP_OS) {
-            case 'Linux':
-                return tempnam(sys_get_temp_dir(), rand());
-            default:
-                $tmp = './tmp/';
-                if (!is_dir($tmp)) {
-                    mkdir($tmp, 0777, true);
-                }
-                return $tmp . rand();
-        }
+        return tempnam(sys_get_temp_dir(), rand());
     }
 }
