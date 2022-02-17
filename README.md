@@ -53,12 +53,42 @@ if (!$linter->isValid()) { // Retorna um booleano informando se o documento é v
 
 use LojaVirtual\Linter;
 
+// Trecho de CSS puro
+$cssContent = "
+    <style>
+    .containerInputLoginCadastro.noBorder
+    {
+       border:none;
+    }
+    
+    .containerInputLoginCadastro .inputTextPadrao
+    {
+        width:100%;
+    }
+    </style>
+    
+    <div class="containerTermosCadastro">
+            <div class="containerInputLogin">
+                <div class="boxBotaoPadraoTema boxBotaoRetratil">
+                    <div class="conteudoBotaoPadraoTema">
+                        <p>teste</p>
+                    </div>
+                </div>
+        </div>
+    </div>
+";
+$linter = Linter::CSS($cssContent, true);
+if (!$linter->isValid()) { // Retorna um booleano informando se o documento é valido
+    var_dump($linter->getError()); // Retorna um array com todos erros encontrados
+}
+
+
+// Trecho de CSS dentro de um contexto HTML
 $cssContent = ".teste{ color: black; }";
 $linter = Linter::CSS($cssContent);
 if (!$linter->isValid()) { // Retorna um booleano informando se o documento é valido
     var_dump($linter->getError()); // Retorna um array com todos erros encontrados
-}
-```
+}```
 
 ### Padrões
 Projeto segue os padrões de codificação da PSR-12.
