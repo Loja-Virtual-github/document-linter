@@ -36,6 +36,27 @@ class HTML extends AbstractLinter implements LinterInteface
     }
 
     /**
+     * Wrap a content in a whole HTML
+     *
+     * @param $html
+     * @return string
+     */
+    public static function wrapHTML($html)
+    {
+        return "
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>HTML Linter</title>
+            </head>
+            <body>
+                $html
+            </body>
+            </html>
+        ";
+    }
+
+    /**
      * Return the content to check
      *
      * @return string
@@ -43,17 +64,7 @@ class HTML extends AbstractLinter implements LinterInteface
     protected function getContent()
     {
         if (!$this->rawDocument) {
-            return "
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>HTML Linter</title>
-                </head>
-                <body>
-                    {$this->content}
-                </body>
-                </html>
-            ";
+            return self::wrapHTML($this->content);
         }
 
         return $this->content;

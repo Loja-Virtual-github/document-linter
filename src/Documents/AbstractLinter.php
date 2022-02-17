@@ -122,7 +122,6 @@ abstract class AbstractLinter
             $file->getFilepath()
         );
 
-
         $output = shell_exec($command);
 
         // Delete tmp file

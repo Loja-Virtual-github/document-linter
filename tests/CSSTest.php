@@ -2,6 +2,7 @@
 
 namespace LojaVirtual\DocumentLinter\Tests;
 
+use LojaVirtual\DocumentLinter\Documents\CSS;
 use LojaVirtual\DocumentLinter\Linter;
 
 class CSSTest extends BaseTesting
@@ -40,6 +41,64 @@ class CSSTest extends BaseTesting
     public function testInvalid()
     {
         $linter = Linter::CSS('.css{background:');
+        $this->assertFalse($linter->isValid());
+        $this->assertNotEmpty($linter->getErrors());
+    }
+
+    public function testValidExtractCSSFromHTML()
+    {
+        $dirtyStyle = '
+            <style>
+            .containerInputLoginCadastro.noBorder
+            {
+               border:none;
+            }
+            
+            .containerInputLoginCadastro .inputTextPadrao
+            {
+                width:100%;
+            }
+            </style>
+              <div class="containerTermosCadastro">
+                        <div class="containerInputLogin">
+                            <div class="boxBotaoPadraoTema boxBotaoRetratil">
+                                <div class="conteudoBotaoPadraoTema">
+                                    <p>teste</p>
+                                </div>
+                            </div>
+                    </div>
+              </div>
+        ';
+
+        $linter = Linter::CSS($dirtyStyle, true);
+        $this->assertTrue($linter->isValid());
+        $this->assertEmpty($linter->getErrors());
+    }
+
+    public function testInvalidExtractCSSFromHTML()
+    {
+        $dirtyStyle = '
+            <style>
+            .containerInputLoginCadastro.noBorder
+            {
+            
+            .containerInputLoginCadastro .inputTextPadrao
+            {
+                width:100%;
+            }
+            </style>
+              <div class="containerTermosCadastro">
+                        <div class="containerInputLogin">
+                            <div class="boxBotaoPadraoTema boxBotaoRetratil">
+                                <div class="conteudoBotaoPadraoTema">
+                                    <p>teste</p>
+                                </div>
+                            </div>
+                    </div>
+              </div>
+        ';
+
+        $linter = Linter::CSS($dirtyStyle, true);
         $this->assertFalse($linter->isValid());
         $this->assertNotEmpty($linter->getErrors());
     }
