@@ -45,7 +45,15 @@ abstract class AbstractLinter
      */
     private function getJavaBin()
     {
-        $javaBin = trim(shell_exec('which java'));
+        switch (PHP_OS) {
+            case 'Linux':
+                $javaBin = trim(shell_exec('which java'));
+                break;
+            case 'WINNT':
+                $javaBin = trim(shell_exec('where java'));
+                break;
+        }
+
         if (empty($javaBin)) {
             throw new LinterException("java cannot be found");
         }
@@ -53,6 +61,11 @@ abstract class AbstractLinter
         return $javaBin;
     }
 
+    /**
+     * Get the java bin
+     *
+     * @return string
+     */
     private function getJavaFile()
     {
         $javaFile = realpath(__DIR__ . '/../../bin/') . '/' . self::JAVA_FILE;
@@ -63,6 +76,12 @@ abstract class AbstractLinter
         return $javaFile;
     }
 
+    /**
+     * Get the linter name
+     *
+     * @param $class
+     * @return string
+     */
     protected static function extractLinterName($class)
     {
         $parts = explode('\\', $class);
@@ -84,6 +103,12 @@ abstract class AbstractLinter
         }
     }
 
+    /**
+     * Execute command
+     *
+     * @param $linterName
+     * @return void
+     */
     protected function execute($linterName)
     {
         $linterName = mb_strtolower($linterName);
@@ -96,6 +121,7 @@ abstract class AbstractLinter
             $this->getFlag($linterName),
             $file->getFilepath()
         );
+
 
         $output = shell_exec($command);
 
