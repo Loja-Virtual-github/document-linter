@@ -67,6 +67,15 @@ class File
      */
     private function buildFilepath()
     {
-        return tempnam(sys_get_temp_dir(), rand());
+        switch (PHP_OS) {
+            case 'Linux':
+                return tempnam(sys_get_temp_dir(), rand());
+            default:
+                $tmp = './tmp/';
+                if (!is_dir($tmp)) {
+                    mkdir($tmp, 0777, true);
+                }
+                return $tmp . rand();
+        }
     }
 }

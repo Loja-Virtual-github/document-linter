@@ -50,7 +50,7 @@ abstract class AbstractLinter
                 $javaBin = trim(shell_exec('which java'));
                 break;
             case 'WINNT':
-                $javaBin = trim(shell_exec('where java'));
+                $javaBin = 'java';
                 break;
         }
 
